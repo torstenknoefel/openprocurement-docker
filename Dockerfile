@@ -9,11 +9,24 @@ RUN dnf install couchdb -y
 
 RUN pip uninstall setuptools -y
 
+RUN dnf install nginx -y
 #RUN useradd openp
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+#RUN nginx
 
 COPY install.sh /home/openp/install.sh
 
 RUN /home/openp/install.sh
 
-EXPOSE 8080/tcp
+#RUN systemctl enable nginx.service
+#RUN systemctl start nginx.service
+
+COPY wrapper.sh  /home/openp/wrapper.sh
+
+EXPOSE 5000
+
+CMD /home/openp/wrapper.sh
+
 
